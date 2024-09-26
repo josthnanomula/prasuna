@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anniversary Memories</title>
+    <style>
+        body {
+            background-image: url('background.jpg'); /* Replace with your image */
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: red;
+            margin-bottom: 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+            gap: 15px; /* Space between images */
+            width: 100%; /* Full width */
+            max-width: 1000px; /* Increased max width of the gallery */
+        }
+
+        .memory {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden; /* Hide overflow for the message */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+            transition: transform 0.3s; /* Smooth hover effect */
+        }
+
+        .memory img {
+            width: 100%; /* Full width of the memory box */
+            height: 200px; /* Set a fixed height for images */
+            object-fit: cover; /* Cover the box while preserving aspect ratio */
+            border-radius: 10px; /* Match image with rounded corners */
+        }
+
+        .memory-message {
+            display: none; /* Initially hidden */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+            border-radius: 10px; /* Rounded corners */
+            display: flex; /* Use flexbox to center text */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            font-size: 18px; /* Font size for the message */
+            color: #333; /* Text color */
+            padding: 10px; /* Space inside the message */
+            transition: opacity 0.3s; /* Smooth transition */
+        }
+
+        .memory:hover {
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        .memory.open .memory-message {
+            display: flex; /* Show message when open */
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
+            justify-content: center; /* Center modal content */
+            align-items: center; /* Center modal content */
+        }
+
+        .modal img {
+            max-width: 90%; /* Responsive max width */
+            max-height: 90%; /* Responsive max height */
+            border-radius: 10px; /* Match image with rounded corners */
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Our Special Memories</h1>
+
+    <div class="gallery">
+        <div class="memory" id="memory1" data-full-image="memory1.jpg"> <!-- Replace with your image -->
+            <img src="memory1.jpg" alt="Memory 1">
+            <div class="memory-message"> we took this pic,before starting our long distance, i miss those days alot!    </div>
+        </div>
+        <div class="memory" id="memory2" data-full-image="memory2.jpg"> <!-- Replace with your image -->
+            <img src="memory2.jpg" alt="Memory 2">
+            <div class="memory-message">the day when we went on the best date ever! </div>
+        </div>
+        <div class="memory" id="memory3" data-full-image="memory3.jpg"> <!-- Replace with your image -->
+            <img src="memory3.jpg" alt="Memory 3">
+            <div class="memory-message">your sign of showing how much you miss us! </div>
+        </div>
+        <div class="memory" id="memory4" data-full-image="memory4.jpg"> <!-- Replace with your image -->
+            <img src="memory4.jpg" alt="Memory 4">
+            <div class="memory-message">i love the way you send pictures reminding that you love me sm</div>
+        </div>
+        <div class="memory" id="memory4" data-full-image="memory5.jpg"> <!-- Replace with your image -->
+            <img src="memory5.jpg" alt="Memory 4">
+            <div class="memory-message">reminder: stop sending me food pictures</div>
+        </div>
+        <div class="memory" id="memory4" data-full-image="memory6.jpg"> <!-- Replace with your image -->
+            <img src="memory6.jpg" alt="Memory 4">
+            <div class="memory-message">my most fav picture of us</div>
+        </div>
+        <div class="memory" id="memory4" data-full-image="memory7.jpg"> <!-- Replace with your image -->
+            <img src="memory7.jpg" alt="Memory 4">
+            <div class="memory-message">the first picture we took after our first long distance</div>
+        </div>
+        <div class="memory" id="memory4" data-full-image="memory8.jpg"> <!-- Replace with your image -->
+            <img src="memory8.jpg" alt="Memory 4">
+            <div class="memory-message">you are the best </div>
+        </div>
+        <div class="memory" id="memory4" data-full-image="memory9.jpg"> <!-- Replace with your image -->
+            <img src="memory9.jpg" alt="Memory 4">
+            <div class="memory-message">yeah its always us<3</div>
+        </div>
+        <!-- Add more memories as needed -->
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <span class="close" id="closeModal">&times;</span>
+        <img id="modalImage" src="" alt="Full Size Image">
+    </div>
+
+    <script>
+        // Add click event to memory images to toggle the message
+        const memories = document.querySelectorAll('.memory');
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+
+        memories.forEach(memory => {
+            memory.addEventListener('click', function() {
+                const fullImage = this.getAttribute('data-full-image');
+                modalImage.src = fullImage; // Set the src of the modal image
+                modal.style.display = "flex"; // Show the modal
+            });
+        });
+
+        // Close the modal when the close button is clicked
+        closeModal.addEventListener('click', function() {
+            modal.style.display = "none"; // Hide the modal
+        });
+
+        // Close the modal when clicking outside of the image
+        modal.addEventListener('click', function() {
+            modal.style.display = "none"; // Hide the modal
+        });
+    </script>
+</body>
+</html>

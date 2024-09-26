@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anniversary Message</title>
+    <style>
+        body {
+            background-image: url('background.jpg'); /* Replace with your image */
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            flex-direction: column; /* Stack the box and the paragraph */
+            text-align: center;
+        }
+
+        p {
+            font-size: 20px;
+            color: red;
+            margin-bottom: 20px; /* Reduced margin for better spacing */
+            width: 70%;
+        }
+
+        .text-box {
+            position: relative;
+            height: 800px;
+            width: 400px; /* Adjust width as needed */
+            background-color: #ffffff; /* Background color of the box */
+            border: 2px solid #ff69b4; /* Border color */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for 3D effect */
+            overflow: hidden; /* Hide overflow for image */
+            cursor: pointer; /* Pointer cursor on hover */
+            font-style: italic;
+            display: flex;
+            align-items: center; /* Center the content */
+            justify-content: center; /* Center the content */
+        }
+
+        .text-content {
+            display: none; /* Initially hidden */
+            font-size: 18px; /* Font size for the message */
+            color: #333; /* Text color */
+            padding-right: 70px;
+            text-align: center; /* Center the text */
+            margin:0%;
+
+
+        }
+
+        .image-cover {
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-image: url('cutiee2.jpg'); /* Replace with your cover image */
+            background-size: cover; /* Cover the box */
+            transition: opacity 0.3s ease; /* Smooth transition */
+        }
+
+        .text-box.open .text-content {
+            display: flex;
+        }
+
+        .text-box.open .image-cover {
+            opacity: 0; /* Fade out the image */
+            pointer-events: none; /* Disable pointer events on image */
+        }
+    </style>
+</head>
+<body>
+    <p>
+        CLICK ON THE IMG
+    </p>
+    
+
+    <div class="text-box" id="textBox">
+        <div class="image-cover"></div>
+        <div class="text-content">
+            This website is done by your girlfriend to let you know how much she loves you. You deserve every little effort which I put in. You are so perfect that it makes me study hard, work on myself, and become better for you. Here's something for our anniversary! I hope you like it.
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('textBox').addEventListener('click', function() {
+            this.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
